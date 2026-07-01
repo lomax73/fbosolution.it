@@ -1,5 +1,7 @@
 "use server";
 
+import nodemailer from "nodemailer";
+
 export type ContactFormData = {
   nome: string;
   azienda: string;
@@ -15,84 +17,56 @@ export type ActionResult = {
   message: string;
 };
 
-export async function submitContact(data: ContactFormData): Promise<ActionResult> {
-  const apiKey = process.env.BREVO_API_KEY;
-  const contactEmail = process.env.CONTACT_EMAIL || "f.lomazzi@fbosolution.it";
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || "smtps.aruba.it",
+  port: Number(process.env.SMTP_PORT) || 465,
+  secure: true,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 
-  if (!apiKey) {
-    console.error("BREVO_API_KEY non configurata");
-    return { success: false, message: "Servizio temporaneamente non disponibile." };
-  }
+export async function submitContact(data: ContactFormData): Promise<ActionResult> {
+  const contactEmail = process.env.CONTACT_EMAIL || "contatti@fbosolution.it";
 
   try {
-    // Crea/aggiorna contatto in Brevo
-    await fetch("https://api.brevo.com/v3/contacts", {
-      method: "POST",
-      headers: {
-        "api-key": apiKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: data.email,
-        attributes: {
-          FIRSTNAME: data.nome.split(" ")[0],
-          LASTNAME: data.nome.split(" ").slice(1).join(" "),
-          COMPANY: data.azienda,
-          AZIENDA: data.azienda,
-          DIVISIONE_INTERESSE: data.interessi.join(", "),
-          MESSAGGIO: data.messaggio || "",
-          TELEFONO: data.telefono || "",
-        },
-        listIds: [],
-        updateEnabled: true,
-      }),
-    });
-
     // Email notifica all'admin
-    await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        "api-key": apiKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sender: { name: "fbosolution.it", email: contactEmail },
-        to: [{ email: contactEmail }],
-        subject: `🔔 Nuovo contatto fbosolution.it — ${data.azienda}`,
-        htmlContent: `
-          <h2>Nuovo contatto da fbosolution.it</h2>
-          <p><strong>Nome:</strong> ${data.nome}</p>
-          <p><strong>Azienda:</strong> ${data.azienda}</p>
-          <p><strong>Email:</strong> ${data.email}</p>
-          ${data.telefono ? `<p><strong>Telefono:</strong> ${data.telefono}</p>` : ""}
-          <p><strong>Interessi:</strong> ${data.interessi.join(", ")}</p>
-          ${data.messaggio ? `<p><strong>Messaggio:</strong> ${data.messaggio}</p>` : ""}
-        `,
-      }),
+    await transporter.sendMail({
+      from: `"FboSolution S.r.l." <${process.env.SMTP_USER}>`,
+      to: contactEmail,
+      subject: `🔔 Nuovo contatto fbosolution.it — ${data.azienda}`,
+      html: `
+        <h2 style="color:#1A3A5C;">Nuovo contatto da fbosolution.it</h2>
+        <table style="border-collapse:collapse;width:100%;font-family:sans-serif;font-size:14px;">
+          <tr><td style="padding:8px;font-weight:bold;color:#64748B;">Nome</td><td style="padding:8px;">${data.nome}</td></tr>
+          <tr style="background:#F8FAFC;"><td style="padding:8px;font-weight:bold;color:#64748B;">Azienda</td><td style="padding:8px;">${data.azienda}</td></tr>
+          <tr><td style="padding:8px;font-weight:bold;color:#64748B;">Email</td><td style="padding:8px;"><a href="mailto:${data.email}">${data.email}</a></td></tr>
+          ${data.telefono ? `<tr style="background:#F8FAFC;"><td style="padding:8px;font-weight:bold;color:#64748B;">Telefono</td><td style="padding:8px;">${data.telefono}</td></tr>` : ""}
+          <tr ${data.telefono ? "" : 'style="background:#F8FAFC;"'}><td style="padding:8px;font-weight:bold;color:#64748B;">Interessi</td><td style="padding:8px;">${data.interessi.join(", ")}</td></tr>
+          ${data.messaggio ? `<tr style="background:#F8FAFC;"><td style="padding:8px;font-weight:bold;color:#64748B;">Messaggio</td><td style="padding:8px;">${data.messaggio}</td></tr>` : ""}
+        </table>
+      `,
     });
 
     // Email conferma al mittente
-    await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        "api-key": apiKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sender: { name: "Fbosolution.it", email: contactEmail },
-        to: [{ email: data.email, name: data.nome }],
-        subject: "Abbiamo ricevuto il tuo messaggio — fbosolution.it",
-        htmlContent: `
-          <p>Ciao ${data.nome.split(" ")[0]},</p>
-          <p>Abbiamo ricevuto il tuo messaggio. Ti rispondo personalmente entro 24 ore lavorative.</p>
-          <p>A presto,<br>Fabrizio<br>Fbosolution.it</p>
-        `,
-      }),
+    await transporter.sendMail({
+      from: `"FboSolution S.r.l." <${process.env.SMTP_USER}>`,
+      to: data.email,
+      subject: "Abbiamo ricevuto il tuo messaggio — FboSolution S.r.l.",
+      html: `
+        <div style="font-family:sans-serif;font-size:14px;color:#334155;max-width:500px;">
+          <p>Ciao <strong>${data.nome.split(" ")[0]}</strong>,</p>
+          <p>abbiamo ricevuto il tuo messaggio. Ti rispondo personalmente entro 24 ore lavorative.</p>
+          <p style="margin-top:24px;">A presto,<br><strong style="color:#1A3A5C;">FboSolution S.r.l.</strong><br>
+          <a href="mailto:contatti@fbosolution.it" style="color:#1EC8E8;">contatti@fbosolution.it</a></p>
+        </div>
+      `,
     });
 
     return { success: true, message: "Messaggio inviato con successo!" };
   } catch (error) {
-    console.error("Errore invio form:", error);
-    return { success: false, message: "Errore nell'invio. Riprova o contattaci via email." };
+    console.error("Errore invio email:", error);
+    return { success: false, message: "Errore nell'invio. Riprova o scrivici direttamente a contatti@fbosolution.it" };
   }
 }

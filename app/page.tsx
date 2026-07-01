@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Header from "@/components/Header";
 import ContactForm from "@/components/ContactForm";
 
@@ -7,13 +8,115 @@ export default function Home() {
       <Header />
 
       {/* HERO */}
-      <section className="bg-white py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
+      <section className="relative overflow-hidden py-28 px-6" style={{ backgroundColor: "#F0F6FF" }}>
+        {/* SVG background — rete digitale sinistra + struttura molecolare destra */}
+        <svg
+          className="absolute inset-0 w-full h-full"
+          viewBox="0 0 1200 600"
+          preserveAspectRatio="xMidYMid slice"
+          fill="none"
+          aria-hidden="true"
+        >
+          {/* Gradiente di sfondo */}
+          <defs>
+            <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#D9F4FA" />
+              <stop offset="50%" stopColor="#F0F6FF" />
+              <stop offset="100%" stopColor="#D9F4FA" />
+            </linearGradient>
+            {/* Bordi sfumati azzurro logo */}
+            <linearGradient id="borderLeft" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#1EC8E8" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="#1EC8E8" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="borderRight" x1="1" y1="0" x2="0" y2="0">
+              <stop offset="0%" stopColor="#1EC8E8" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="#1EC8E8" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="borderTop" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#1EC8E8" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#1EC8E8" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="borderBottom" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stopColor="#1EC8E8" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#1EC8E8" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="600" fill="url(#bgGrad)" />
+          {/* Sfumature bordi azzurro logo */}
+          <rect width="300" height="600" fill="url(#borderLeft)" />
+          <rect x="900" width="300" height="600" fill="url(#borderRight)" />
+          <rect width="1200" height="200" fill="url(#borderTop)" />
+          <rect y="400" width="1200" height="200" fill="url(#borderBottom)" />
+
+          {/* === SINISTRA: rete digitale === */}
+          {/* Nodi rete */}
+          <circle cx="80" cy="120" r="5" fill="#2E5D8E" fillOpacity="0.35" />
+          <circle cx="180" cy="80" r="4" fill="#2E5D8E" fillOpacity="0.3" />
+          <circle cx="240" cy="180" r="6" fill="#2E5D8E" fillOpacity="0.4" />
+          <circle cx="140" cy="260" r="4" fill="#2E5D8E" fillOpacity="0.25" />
+          <circle cx="60" cy="320" r="5" fill="#2E5D8E" fillOpacity="0.3" />
+          <circle cx="200" cy="340" r="4" fill="#2E5D8E" fillOpacity="0.2" />
+          <circle cx="100" cy="440" r="5" fill="#2E5D8E" fillOpacity="0.25" />
+          <circle cx="280" cy="420" r="4" fill="#2E5D8E" fillOpacity="0.2" />
+          <circle cx="320" cy="280" r="5" fill="#1A3A5C" fillOpacity="0.3" />
+          <circle cx="380" cy="160" r="4" fill="#2E5D8E" fillOpacity="0.2" />
+          <circle cx="420" cy="380" r="4" fill="#2E5D8E" fillOpacity="0.18" />
+          {/* Connessioni rete */}
+          <line x1="80" y1="120" x2="180" y2="80" stroke="#2E5D8E" strokeOpacity="0.2" strokeWidth="1" />
+          <line x1="180" y1="80" x2="240" y2="180" stroke="#2E5D8E" strokeOpacity="0.2" strokeWidth="1" />
+          <line x1="80" y1="120" x2="240" y2="180" stroke="#2E5D8E" strokeOpacity="0.15" strokeWidth="1" />
+          <line x1="240" y1="180" x2="140" y2="260" stroke="#2E5D8E" strokeOpacity="0.2" strokeWidth="1" />
+          <line x1="140" y1="260" x2="60" y2="320" stroke="#2E5D8E" strokeOpacity="0.18" strokeWidth="1" />
+          <line x1="140" y1="260" x2="200" y2="340" stroke="#2E5D8E" strokeOpacity="0.15" strokeWidth="1" />
+          <line x1="60" y1="320" x2="100" y2="440" stroke="#2E5D8E" strokeOpacity="0.15" strokeWidth="1" />
+          <line x1="200" y1="340" x2="280" y2="420" stroke="#2E5D8E" strokeOpacity="0.15" strokeWidth="1" />
+          <line x1="240" y1="180" x2="320" y2="280" stroke="#1A3A5C" strokeOpacity="0.18" strokeWidth="1" />
+          <line x1="320" y1="280" x2="200" y2="340" stroke="#1A3A5C" strokeOpacity="0.15" strokeWidth="1" />
+          <line x1="180" y1="80" x2="380" y2="160" stroke="#2E5D8E" strokeOpacity="0.12" strokeWidth="1" />
+          <line x1="320" y1="280" x2="420" y2="380" stroke="#2E5D8E" strokeOpacity="0.12" strokeWidth="1" />
+
+          {/* === DESTRA: struttura molecolare/cristallina === */}
+          {/* Esagono centrale grande */}
+          <polygon points="1020,220 1060,198 1100,220 1100,264 1060,286 1020,264" stroke="#00A896" strokeOpacity="0.3" strokeWidth="1.5" fill="none" />
+          {/* Esagoni satellite */}
+          <polygon points="940,176 980,154 1020,176 1020,220 980,242 940,220" stroke="#00A896" strokeOpacity="0.2" strokeWidth="1" fill="none" />
+          <polygon points="1100,176 1140,154 1180,176 1180,220 1140,242 1100,220" stroke="#00A896" strokeOpacity="0.18" strokeWidth="1" fill="none" />
+          <polygon points="940,264 980,242 1020,264 1020,308 980,330 940,308" stroke="#00A896" strokeOpacity="0.2" strokeWidth="1" fill="none" />
+          <polygon points="1100,264 1140,242 1180,264 1180,308 1140,330 1100,308" stroke="#00A896" strokeOpacity="0.18" strokeWidth="1" fill="none" />
+          <polygon points="1020,308 1060,286 1100,308 1100,352 1060,374 1020,352" stroke="#00A896" strokeOpacity="0.15" strokeWidth="1" fill="none" />
+          {/* Nodi molecolari */}
+          <circle cx="1060" cy="242" r="6" fill="#00A896" fillOpacity="0.35" />
+          <circle cx="980" cy="198" r="4" fill="#00A896" fillOpacity="0.25" />
+          <circle cx="1140" cy="198" r="4" fill="#00A896" fillOpacity="0.25" />
+          <circle cx="980" cy="286" r="4" fill="#00A896" fillOpacity="0.22" />
+          <circle cx="1140" cy="286" r="4" fill="#00A896" fillOpacity="0.22" />
+          <circle cx="1060" cy="330" r="4" fill="#00A896" fillOpacity="0.2" />
+          <circle cx="860" cy="340" r="5" fill="#00A896" fillOpacity="0.18" />
+          <circle cx="900" cy="420" r="4" fill="#00A896" fillOpacity="0.15" />
+          <circle cx="820" cy="200" r="4" fill="#00A896" fillOpacity="0.15" />
+          {/* Linee molecolari extra */}
+          <line x1="860" y1="340" x2="940" y2="308" stroke="#00A896" strokeOpacity="0.15" strokeWidth="1" />
+          <line x1="860" y1="340" x2="900" y2="420" stroke="#00A896" strokeOpacity="0.12" strokeWidth="1" />
+          <line x1="820" y1="200" x2="940" y2="220" stroke="#00A896" strokeOpacity="0.12" strokeWidth="1" />
+
+          {/* Linea di confine centrale — gradiente */}
+          <line x1="600" y1="40" x2="600" y2="560" stroke="url(#centerLine)" strokeOpacity="0.08" strokeWidth="1" strokeDasharray="6 8" />
+          <defs>
+            <linearGradient id="centerLine" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#2E5D8E" />
+              <stop offset="50%" stopColor="#00A896" />
+              <stop offset="100%" stopColor="#2E5D8E" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Contenuto hero — sopra l'SVG */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
           <div className="inline-block mb-6">
             <span
               className="px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase"
-              style={{ backgroundColor: "#EBF3FB", color: "#2E5D8E" }}
+              style={{ backgroundColor: "rgba(235,243,251,0.9)", color: "#2E5D8E" }}
             >
               Presto Online
             </span>
@@ -35,10 +138,9 @@ export default function Home() {
             di ultima generazione.
           </p>
 
-          {/* Decorative line */}
           <div
-            className="mx-auto h-[3px] rounded-full max-w-xs"
-            style={{ background: "linear-gradient(90deg, #2E5D8E, #00A896)" }}
+            className="mx-auto rounded-full max-w-xs"
+            style={{ background: "linear-gradient(90deg, #2E5D8E, #00A896)", height: "3px" }}
           />
         </div>
       </section>
@@ -53,16 +155,38 @@ export default function Home() {
               style={{ borderColor: "#E2E8F0" }}
             >
               <div className="mb-5">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <circle cx="24" cy="24" r="4" stroke="#2E5D8E" strokeWidth="2" />
-                  <circle cx="8" cy="12" r="3" stroke="#2E5D8E" strokeWidth="2" />
-                  <circle cx="40" cy="12" r="3" stroke="#2E5D8E" strokeWidth="2" />
-                  <circle cx="8" cy="36" r="3" stroke="#2E5D8E" strokeWidth="2" />
-                  <circle cx="40" cy="36" r="3" stroke="#2E5D8E" strokeWidth="2" />
-                  <line x1="11" y1="13.5" x2="20" y2="21" stroke="#2E5D8E" strokeWidth="1.5" />
-                  <line x1="37" y1="13.5" x2="28" y2="21" stroke="#2E5D8E" strokeWidth="1.5" />
-                  <line x1="11" y1="34.5" x2="20" y2="27" stroke="#2E5D8E" strokeWidth="1.5" />
-                  <line x1="37" y1="34.5" x2="28" y2="27" stroke="#2E5D8E" strokeWidth="1.5" />
+                <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+                  <defs>
+                    <linearGradient id="netGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#1A3A5C" />
+                      <stop offset="100%" stopColor="#2E5D8E" />
+                    </linearGradient>
+                    <linearGradient id="wifiGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#1EC8E8" />
+                      <stop offset="100%" stopColor="#2E5D8E" />
+                    </linearGradient>
+                  </defs>
+                  {/* Sfondo cerchio */}
+                  <circle cx="36" cy="36" r="34" fill="#EBF3FB" />
+                  {/* Router centrale */}
+                  <rect x="26" y="30" width="20" height="13" rx="3" fill="url(#netGrad)" />
+                  <circle cx="30" cy="36.5" r="1.5" fill="#1EC8E8" />
+                  <circle cx="36" cy="36.5" r="1.5" fill="#1EC8E8" />
+                  <circle cx="42" cy="36.5" r="1.5" fill="#fff" fillOpacity="0.6" />
+                  {/* Onde WiFi */}
+                  <path d="M28 27 Q36 21 44 27" stroke="url(#wifiGrad)" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <path d="M23 23 Q36 14 49 23" stroke="url(#wifiGrad)" strokeWidth="2" strokeLinecap="round" fill="none" strokeOpacity="0.6" />
+                  <path d="M18 19 Q36 7 54 19" stroke="url(#wifiGrad)" strokeWidth="1.5" strokeLinecap="round" fill="none" strokeOpacity="0.3" />
+                  {/* Cavo verso il basso / porta */}
+                  <line x1="36" y1="43" x2="36" y2="49" stroke="#2E5D8E" strokeWidth="2" />
+                  {/* Nodi rete collegati */}
+                  <circle cx="20" cy="55" r="4" fill="url(#netGrad)" />
+                  <circle cx="36" cy="55" r="4" fill="url(#netGrad)" />
+                  <circle cx="52" cy="55" r="4" fill="url(#netGrad)" />
+                  <line x1="20" y1="51" x2="20" y2="49" stroke="#2E5D8E" strokeWidth="1.5" />
+                  <line x1="36" y1="51" x2="36" y2="49" stroke="#2E5D8E" strokeWidth="1.5" />
+                  <line x1="52" y1="51" x2="52" y2="49" stroke="#2E5D8E" strokeWidth="1.5" />
+                  <line x1="20" y1="49" x2="52" y2="49" stroke="#2E5D8E" strokeWidth="1.5" />
                 </svg>
               </div>
               <h2 className="text-xl font-bold mb-3" style={{ color: "#1A3A5C" }}>
@@ -70,7 +194,9 @@ export default function Home() {
               </h2>
               <p className="text-sm leading-relaxed mb-5" style={{ color: "#64748B" }}>
                 Progettazione, installazione e configurazione di reti dati strutturate
-                e sistemi WiFi enterprise. Fibra ottica, reti cablate, wireless mesh
+                e sistemi <strong style={{ color: "#1A3A5C" }}>WiFi enterprise</strong>.{" "}
+                <strong style={{ color: "#1A3A5C" }}>Fibra ottica</strong>, reti cablate,{" "}
+                <strong style={{ color: "#1A3A5C" }}>wireless mesh</strong>{" "}
                 ad alta densità per aziende, cantieri e strutture pubbliche.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -92,15 +218,44 @@ export default function Home() {
               style={{ borderColor: "#E2E8F0" }}
             >
               <div className="mb-5">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <polygon points="24,4 38,14 38,34 24,44 10,34 10,14" stroke="#00A896" strokeWidth="2" fill="none" />
-                  <polygon points="24,14 32,19 32,29 24,34 16,29 16,19" stroke="#00A896" strokeWidth="1.5" fill="none" />
-                  <line x1="24" y1="4" x2="24" y2="14" stroke="#00A896" strokeWidth="1.5" />
-                  <line x1="38" y1="14" x2="32" y2="19" stroke="#00A896" strokeWidth="1.5" />
-                  <line x1="38" y1="34" x2="32" y2="29" stroke="#00A896" strokeWidth="1.5" />
-                  <line x1="24" y1="44" x2="24" y2="34" stroke="#00A896" strokeWidth="1.5" />
-                  <line x1="10" y1="34" x2="16" y2="29" stroke="#00A896" strokeWidth="1.5" />
-                  <line x1="10" y1="14" x2="16" y2="19" stroke="#00A896" strokeWidth="1.5" />
+                <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+                  <defs>
+                    <linearGradient id="matGrad" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#00A896" />
+                      <stop offset="100%" stopColor="#007A6E" />
+                    </linearGradient>
+                    <linearGradient id="crystalGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#1EC8E8" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="#00A896" stopOpacity="0.15" />
+                    </linearGradient>
+                  </defs>
+                  {/* Sfondo cerchio */}
+                  <circle cx="36" cy="36" r="34" fill="#E6F7F5" />
+                  {/* Esagono centrale — reticolo nanotecnologico */}
+                  <polygon points="36,16 48,23 48,37 36,44 24,37 24,23" fill="url(#crystalGrad)" stroke="url(#matGrad)" strokeWidth="2" />
+                  {/* Atomo centrale */}
+                  <circle cx="36" cy="30" r="4" fill="url(#matGrad)" />
+                  {/* Legami molecolari */}
+                  <line x1="36" y1="16" x2="36" y2="26" stroke="#00A896" strokeWidth="1.5" />
+                  <line x1="48" y1="23" x2="40" y2="27.5" stroke="#00A896" strokeWidth="1.5" />
+                  <line x1="48" y1="37" x2="40" y2="32.5" stroke="#00A896" strokeWidth="1.5" />
+                  <line x1="36" y1="44" x2="36" y2="34" stroke="#00A896" strokeWidth="1.5" />
+                  <line x1="24" y1="37" x2="32" y2="32.5" stroke="#00A896" strokeWidth="1.5" />
+                  <line x1="24" y1="23" x2="32" y2="27.5" stroke="#00A896" strokeWidth="1.5" />
+                  {/* Atomi vertici */}
+                  <circle cx="36" cy="16" r="3" fill="#00A896" fillOpacity="0.7" />
+                  <circle cx="48" cy="23" r="3" fill="#00A896" fillOpacity="0.7" />
+                  <circle cx="48" cy="37" r="3" fill="#00A896" fillOpacity="0.7" />
+                  <circle cx="36" cy="44" r="3" fill="#00A896" fillOpacity="0.7" />
+                  <circle cx="24" cy="37" r="3" fill="#00A896" fillOpacity="0.7" />
+                  <circle cx="24" cy="23" r="3" fill="#00A896" fillOpacity="0.7" />
+                  {/* Satellite molecole esterne */}
+                  <circle cx="36" cy="57" r="2.5" fill="#1EC8E8" fillOpacity="0.6" />
+                  <circle cx="56" cy="47" r="2" fill="#1EC8E8" fillOpacity="0.5" />
+                  <circle cx="16" cy="47" r="2" fill="#1EC8E8" fillOpacity="0.5" />
+                  <line x1="36" y1="47" x2="36" y2="54.5" stroke="#00A896" strokeWidth="1" strokeOpacity="0.4" />
+                  <line x1="48" y1="40" x2="54" y2="45" stroke="#00A896" strokeWidth="1" strokeOpacity="0.4" />
+                  <line x1="24" y1="40" x2="18" y2="45" stroke="#00A896" strokeWidth="1" strokeOpacity="0.4" />
                 </svg>
               </div>
               <h2 className="text-xl font-bold mb-3" style={{ color: "#1A3A5C" }}>
@@ -108,8 +263,9 @@ export default function Home() {
               </h2>
               <p className="text-sm leading-relaxed mb-5" style={{ color: "#64748B" }}>
                 Rivenditore autorizzato in Italia di materiali ad alte prestazioni:
-                isolamento termico IGK2, massetti SuperFluid con garanzia decennale assicurativa,
-                membrane impermeabilizzanti SuperElastiK.
+                isolamento termico <strong style={{ color: "#1A3A5C" }}>IGK2</strong>,
+                massetti <strong style={{ color: "#1A3A5C" }}>SuperFluid</strong> con garanzia decennale assicurativa,
+                membrane impermeabilizzanti <strong style={{ color: "#1A3A5C" }}>SuperElastiK</strong>.
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {["IGK2", "SuperFluid", "SuperElastiK"].map((tag) => (
@@ -176,9 +332,23 @@ export default function Home() {
       <footer className="py-10 px-6" style={{ backgroundColor: "#1A3A5C" }}>
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-white">
-            <span className="text-xl font-bold">
-              fbosolution<span style={{ color: "#00A896" }}>.it</span>
-            </span>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0">
+                <Image src="/logo.jpg" alt="FBO Solution SRL" width={36} height={36} />
+              </div>
+              <span
+                className="leading-none"
+                style={{
+                  fontFamily: "var(--font-barlow), sans-serif",
+                  fontWeight: 700,
+                  fontSize: "1.2rem",
+                  letterSpacing: "0.02em",
+                  color: "white",
+                }}
+              >
+                FboSolution <span style={{ color: "#00A896" }}>S.r.l.</span>
+              </span>
+            </div>
 
             <div className="flex items-center gap-6">
               {/* LinkedIn */}
