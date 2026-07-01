@@ -372,10 +372,10 @@ export default function Home() {
                 </svg>
               </a>
               <a
-                href="mailto:f.lomazzi@fbosolution.it"
+                href="mailto:contatti@fbosolution.it"
                 className="text-sm opacity-75 hover:opacity-100 transition-opacity"
               >
-                f.lomazzi@fbosolution.it
+                contatti@fbosolution.it
               </a>
             </div>
           </div>
