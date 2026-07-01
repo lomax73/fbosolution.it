@@ -139,9 +139,17 @@ export default function Home() {
           </p>
 
           <div
-            className="mx-auto rounded-full max-w-xs"
+            className="mx-auto rounded-full max-w-xs mb-10"
             style={{ background: "linear-gradient(90deg, #2E5D8E, #00A896)", height: "3px" }}
           />
+
+          <a
+            href="#contatti"
+            className="inline-block px-8 py-4 rounded-xl font-semibold text-white text-base transition-all hover:scale-105 hover:opacity-85"
+            style={{ backgroundColor: "#1A3A5C", boxShadow: "0 4px 20px rgba(26,58,92,0.25)" }}
+          >
+            Contattaci ora →
+          </a>
         </div>
       </section>
 
@@ -314,7 +322,7 @@ export default function Home() {
       </section>
 
       {/* FORM CONTATTI */}
-      <section className="py-20 px-6 bg-white">
+      <section id="contatti" className="py-20 px-6 bg-white">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold mb-3" style={{ color: "#1A3A5C" }}>
@@ -341,12 +349,12 @@ export default function Home() {
                 style={{
                   fontFamily: "var(--font-barlow), sans-serif",
                   fontWeight: 700,
-                  fontSize: "1.2rem",
+                  fontSize: "1.65rem",
                   letterSpacing: "0.02em",
                   color: "white",
                 }}
               >
-                FboSolution <span style={{ color: "#00A896" }}>S.r.l.</span>
+                FboSolution <span style={{ color: "#1EC8E8" }}>S.r.l.</span>
               </span>
             </div>
 
